@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remember Your Creator | For Teens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night:#0a0a14; --deep:#10102a; --gold:#f5c842; --amber:#e8831a;
+    --glow:#7b5ea7; --soft:#c9b8e8; --white:#f0eef8;
+    --muted:rgba(240,238,248,0.55);
+    --nav-h:56px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--night);color:var(--white);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;padding-top:var(--nav-h);}
+
+  /* ── STICKY NAV ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    height:var(--nav-h);
+    background:rgba(10,10,20,0.92);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,0.07);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 1rem;
+  }
+  .nav-brand{
+    font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;
+    color:var(--gold);white-space:nowrap;
+  }
+  .nav-links{
+    display:flex;gap:0.2rem;
+    list-style:none;
+  }
+  .nav-links a{
+    color:var(--muted);font-size:0.75rem;letter-spacing:0.04em;
+    text-decoration:none;padding:0.4em 0.65em;border-radius:8px;
+    transition:color 0.2s,background 0.2s;white-space:nowrap;
+  }
+  .nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(245,200,66,0.1);}
+  /* hamburger for very small screens */
+  .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--white);margin:4px 0;transition:0.3s;}
+  @media(max-width:540px){
+    .nav-links{
+      display:none;flex-direction:column;
+      position:absolute;top:var(--nav-h);left:0;right:0;
+      background:rgba(10,10,20,0.97);border-bottom:1px solid rgba(255,255,255,0.08);
+      padding:0.6rem 1rem 1rem;gap:0.1rem;
+    }
+    .nav-links.open{display:flex;}
+    .nav-links a{font-size:0.9rem;padding:0.7em 0.5em;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ── STARFIELD ── */
+  #stars{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+  /* ── HERO ── */
+  .hero{
+    position:relative;z-index:1;min-height:calc(100vh - var(--nav-h));
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:2rem 1.2rem;overflow:hidden;
+  }
+  .hero::before{content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(123,94,167,0.28) 0%,transparent 70%);
+    pointer-events:none;}
+  .verse-label{font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;animation:fadeUp 0.8s 0.1s both;}
+  .hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,9vw,7.5rem);font-weight:900;line-height:1.0;animation:fadeUp 0.9s 0.25s both;}
+  .hero-title em{font-style:italic;color:var(--gold);display:block;}
+  .hero-sub{font-size:clamp(0.95rem,2.5vw,1.2rem);color:var(--muted);max-width:520px;line-height:1.65;margin:1.4rem auto 0;animation:fadeUp 1s 0.45s both;}
+  .scroll-cue{margin-top:2.5rem;display:flex;flex-direction:column;align-items:center;gap:0.4rem;color:var(--muted);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;animation:fadeUp 1s 0.9s both;}
+  .scroll-cue .arrow{width:1px;height:36px;background:linear-gradient(to bottom,var(--gold),transparent);animation:drip 1.6s ease-in-out infinite;}
+  @keyframes drip{0%{transform:scaleY(0.3) translateY(-10px);opacity:0;}50%{transform:scaleY(1) translateY(0);opacity:1;}100%{transform:scaleY(0.3) translateY(10px);opacity:0;}}
+
+  /* ── SHARED SECTION ── */
+  .section{position:relative;z-index:1;padding:3.5rem 1.2rem;}
+  .section-inner{max-width:1100px;margin:0 auto;}
+  .tag{display:inline-block;background:rgba(245,200,66,0.12);border:1px solid rgba(245,200,66,0.3);color:var(--gold);font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.3em 0.9em;border-radius:999px;margin-bottom:0.9rem;}
+  h2.section-heading{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:0.9rem;}
+  h2.section-heading em{color:var(--gold);font-style:italic;}
+  .section-body{font-size:1rem;color:var(--muted);line-height:1.7;max-width:620px;}
+
+  /* ── CARDS ── */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;margin-top:2.5rem;}
+  .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:1.6rem 1.4rem;transition:transform 0.25s,border-color 0.25s,background 0.25s;}
+  .card:hover{transform:translateY(-5px);border-color:rgba(245,200,66,0.35);background:rgba(123,94,167,0.12);}
+  .card-icon{font-size:2rem;margin-bottom:0.8rem;display:block;}
+  .card h3{font-size:1rem;font-weight:600;margin-bottom:0.4rem;}
+  .card p{font-size:0.87rem;color:var(--muted);line-height:1.6;}
+
+  /* ── SPLIT ── */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+  @media(max-width:700px){.split{grid-template-columns:1fr;gap:2rem;}}
+
+  /* ── STATS ── */
+  .stats{display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:2rem;}
+  .stat-pill{background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.25);border-radius:14px;padding:0.9rem 1.2rem;flex:1 1 100px;text-align:center;}
+  .stat-pill .num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--gold);}
+  .stat-pill .lbl{font-size:0.72rem;color:var(--muted);margin-top:0.2rem;}
+
+  /* ── HEROES ── */
+  .heroes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.9rem;margin-top:2rem;}
+  .hero-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.2rem;transition:transform 0.2s,border-color 0.2s;}
+  .hero-card:hover{transform:translateY(-4px);border-color:rgba(123,94,167,0.5);}
+  .hero-card .name{font-weight:700;color:var(--gold);font-size:0.95rem;}
+  .hero-card .age{font-size:0.75rem;color:var(--amber);margin:0.2rem 0 0.4rem;}
+  .hero-card .deed{font-size:0.82rem;color:var(--muted);line-height:1.5;}
+
+  /* ── VERSE BLOCK ── */
+  .verse-block{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:4rem 1.5rem 3.5rem;text-align:center;}
+  .verse-block blockquote{font-family:'Playfair Display',serif;font-size:clamp(1.15rem,3.5vw,1.85rem);font-style:italic;line-height:1.55;color:var(--soft);border:none;}
+  .verse-block blockquote span{color:var(--gold);font-style:normal;font-weight:700;}
+  .verse-ref{display:inline-block;margin-top:1rem;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);}
+
+  /* ── RING ── */
+  .ring-wrap{position:relative;width:180px;height:180px;margin:0 auto;display:flex;align-items:center;justify-content:center;}
+  .ring{position:absolute;border-radius:50%;border:1px solid rgba(245,200,66,0.25);animation:pulse-ring 3s ease-out infinite;}
+  .ring:nth-child(1){width:100%;height:100%;animation-delay:0s;}
+  .ring:nth-child(2){width:75%;height:75%;animation-delay:0.8s;}
+  .ring:nth-child(3){width:50%;height:50%;animation-delay:1.6s;}
+  @keyframes pulse-ring{0%{opacity:0.6;transform:scale(0.92);}70%{opacity:0.15;transform:scale(1.1);}100%{opacity:0;transform:scale(1.15);}}
+  .ring-inner{position:relative;z-index:1;width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--amber));display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 0 40px rgba(245,200,66,0.35);}
+
+  /* ── CTA ── */
+  .cta-section{position:relative;z-index:1;padding:5rem 1.5rem;text-align:center;overflow:hidden;}
+  .cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(123,94,167,0.22) 0%,transparent 70%);pointer-events:none;}
+  .cta-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,6vw,4rem);font-weight:900;line-height:1.1;max-width:680px;margin:0 auto 1.4rem;}
+  .cta-title em{color:var(--gold);font-style:italic;}
+  .cta-sub{font-size:1rem;color:var(--muted);max-width:460px;margin:0 auto 2.2rem;line-height:1.65;}
+  .btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--gold);color:#0a0a14;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.92rem;padding:0.8rem 1.8rem;border-radius:999px;text-decoration:none;transition:background 0.2s,transform 0.2s;cursor:pointer;border:none;}
+  .btn:hover{background:var(--amber);transform:scale(1.04);}
+
+  /* ── DIVIDER ── */
+  .divider{max-width:1100px;margin:0 auto;height:1px;background:linear-gradient(to right,transparent,rgba(255,255,255,0.1),transparent);}
+
+  /* ── REVEAL ── */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s,transform 0.7s;}
+  .revealed{opacity:1;transform:translateY(0);}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+  footer{position:relative;z-index:1;text-align:center;padding:2.2rem 1rem;font-size:0.75rem;color:rgba(240,238,248,0.3);border-top:1px solid rgba(255,255,255,0.06);}
+
+  /* ══════════════════════════════════
+     30-DAY DEVOTION SECTION
+  ══════════════════════════════════ */
+  #devotion{scroll-margin-top:calc(var(--nav-h) + 8px);}
+
+  .devot-intro{max-width:680px;margin:0 auto 2.5rem;text-align:center;}
+  .devot-intro p{font-size:0.97rem;color:var(--muted);line-height:1.7;}
+
+  /* Progress bar */
+  .devot-progress-wrap{max-width:680px;margin:0 auto 2.5rem;}
+  .devot-progress-label{display:flex;justify-content:space-between;font-size:0.78rem;color:var(--muted);margin-bottom:0.5rem;}
+  .devot-bar-bg{height:8px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;}
+  .devot-bar-fill{height:100%;background:linear-gradient(to right,var(--glow),var(--gold));border-radius:999px;transition:width 0.5s ease;width:0%;}
+
+  /* Table wrapper — horizontal scroll on mobile */
+  .devot-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:18px;border:1px solid rgba(255,255,255,0.08);}
+  .devot-table{width:100%;border-collapse:collapse;min-width:480px;}
+  .devot-table thead tr{background:rgba(123,94,167,0.25);}
+  .devot-table thead th{padding:0.85rem 1rem;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);text-align:left;font-weight:600;white-space:nowrap;}
+  .devot-table thead th:first-child{width:54px;text-align:center;}
+  .devot-table thead th:nth-child(2){width:52px;}
+  .devot-table tbody tr{border-top:1px solid rgba(255,255,255,0.05);transition:background 0.2s;}
+  .devot-table tbody tr:hover{background:rgba(255,255,255,0.03);}
+  .devot-table tbody tr.done{background:rgba(245,200,66,0.06);}
+  .devot-table td{padding:0.8rem 1rem;font-size:0.88rem;vertical-align:middle;}
+  .devot-table td:first-child{text-align:center;}
+
+  /* day number badge */
+  .day-badge{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:50%;
+    background:rgba(123,94,167,0.25);border:1px solid rgba(123,94,167,0.4);
+    font-size:0.75rem;font-weight:700;color:var(--soft);
+  }
+  tr.done .day-badge{background:rgba(245,200,66,0.2);border-color:rgba(245,200,66,0.5);color:var(--gold);}
+
+  /* reference pill */
+  .ref-pill{
+    display:inline-block;
+    background:rgba(232,131,26,0.12);border:1px solid rgba(232,131,26,0.3);
+    color:var(--amber);font-size:0.72rem;letter-spacing:0.06em;
+    padding:0.2em 0.65em;border-radius:999px;white-space:nowrap;
+  }
+
+  /* theme label */
+  .theme-label{font-size:0.75rem;color:var(--glow);font-weight:500;margin-bottom:0.18rem;}
+  .verse-text{color:var(--white);line-height:1.5;}
+  .verse-note{font-size:0.78rem;color:var(--muted);margin-top:0.15rem;line-height:1.4;}
+
+  /* custom checkbox */
+  .devot-check{
+    appearance:none;-webkit-appearance:none;
+    width:22px;height:22px;border-radius:6px;
+    border:2px solid rgba(245,200,66,0.4);
+    background:transparent;cursor:pointer;
+    position:relative;transition:border-color 0.2s,background 0.2s;
+    flex-shrink:0;
+  }
+  .devot-check:checked{background:var(--gold);border-color:var(--gold);}
+  .devot-check:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#0a0a14;font-size:0.8rem;font-weight:800;}
+  .devot-check:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
+  /* reset btn */
+  .devot-reset{
+    margin-top:1.2rem;display:flex;align-items:center;gap:0.5rem;
+    background:transparent;border:1px solid rgba(255,255,255,0.1);
+    color:var(--muted);font-size:0.78rem;padding:0.45em 1em;border-radius:999px;
+    cursor:pointer;transition:border-color 0.2s,color 0.2s;
+  }
+  .devot-reset:hover{border-color:rgba(232,131,26,0.5);color:var(--amber);}
+
+  /* category filter pills */
+  .filter-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem;}
+  .filter-pill{
+    background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+    color:var(--muted);font-size:0.73rem;letter-spacing:0.08em;text-transform:uppercase;
+    padding:0.3em 0.9em;border-radius:999px;cursor:pointer;transition:all 0.2s;
+  }
+  .filter-pill:hover,.filter-pill.active{background:rgba(123,94,167,0.25);border-color:rgba(123,94,167,0.6);color:var(--soft);}
+  .filter-pill[data-cat="all"].active{background:rgba(245,200,66,0.15);border-color:rgba(245,200,66,0.5);color:var(--gold);}
+</style>
+</head>
+<body>
+
+<!-- ═══ STICKY NAV ═══ -->
+<nav>
+  <div class="nav-brand">✝ Remember</div>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#remember">Remember</a></li>
+    <li><a href="#creator">Creator</a></li>
+    <li><a href="#youth">Youth</a></li>
+    <li><a href="#heroes">Heroes</a></li>
+    <li><a href="30-day-devotion.html" style="color:var(--gold);font-weight:700;">📖 30 Days</a></li>
+  </ul>
+</nav>
+
+<!-- Starfield -->
+<canvas id="stars"></canvas>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="verse-label">Ecclesiastes 12:1 — A Message for Teens</div>
+  <h1 class="hero-title">
+    Remember Your<br>
+    <em>Creator</em>
+  </h1>
+  <p class="hero-sub">
+    You are young. Your brain is still forming. Your habits are being set.
+    There has never been a better time — than <strong>right now</strong> — to know who made you.
+  </p>
+  <div class="scroll-cue">
+    <span>Explore</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ═══ VERSE ═══ -->
+<div class="divider"></div>
+<section class="verse-block reveal">
+  <blockquote>
+    "Remember your <span>Creator</span> in the days of your <span>youth</span>,
+    before the days of trouble come and the years approach when you will say,
+    'I find no pleasure in them.'"
+  </blockquote>
+  <span class="verse-ref">Ecclesiastes 12:1 — NIV</span>
+</section>
+<div class="divider"></div>
+
+<!-- ═══ REMEMBER ═══ -->
+<section class="section reveal" id="remember">
+  <div class="section-inner">
+    <div class="split">
+      <div>
+        <div class="tag">The Word</div>
+        <h2 class="section-heading">What does it mean to <em>Remember</em>?</h2>
+        <p class="section-body">To remember is to keep something in your mind so you can recall it when needed — not just a passing thought, but a deep knowing you live by daily.</p>
+        <p class="section-body" style="margin-top:0.9rem;">The same principle applies to God. The more you intentionally keep Him at the center of your life, the more natural it becomes to walk with Him.</p>
+      </div>
+      <div>
+        <div class="cards">
+          <div class="card"><span class="card-icon">🔁</span><h3>Repeat It</h3><p>Frequent use strengthens memory. Daily time with God builds a lifetime habit.</p></div>
+          <div class="card"><span class="card-icon">❤️</span><h3>Feel It</h3><p>Emotionally meaningful things stick. Let your faith become something you love, not just know.</p></div>
+          <div class="card"><span class="card-icon">⭐</span><h3>Value It</h3><p>We remember what we consider important. Make God your highest priority.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CREATOR ═══ -->
+<div class="divider"></div>
+<section class="section reveal" id="creator">
+  <div class="section-inner" style="text-align:center;max-width:700px;margin:0 auto;">
+    <div class="tag">The Creator</div>
+    <h2 class="section-heading">Who is <em>Your Creator</em>?</h2>
+    <p class="section-body" style="margin:0 auto 2.5rem;">Before the universe existed, before anything was made — God was. He spoke, and everything came into being.</p>
+    <div class="ring-wrap" style="margin-bottom:2.5rem;">
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      <div class="ring-inner">✝️</div>
+    </div>
+    <div class="cards" style="text-align:left;">
+      <div class="card"><span class="card-icon">♾️</span><h3>Eternal</h3><p>"From everlasting to everlasting, You are God." — Ps 90:2</p></div>
+      <div class="card"><span class="card-icon">⚡</span><h3>All-Powerful</h3><p>"Let there be light — and there was light." — Gen 1:3</p></div>
+      <div class="card"><span class="card-icon">🧠</span><h3>All-Knowing</h3><p>"In wisdom you made them all." — Psalm 104:24</p></div>
+      <div class="card"><span class="card-icon">🎯</span><h3>Purposeful</h3><p>"Created in Christ Jesus to do good works." — Eph 2:10</p></div>
+      <div class="card"><span class="card-icon">🕊️</span><h3>Holy</h3><p>"Holy, holy, holy is the LORD Almighty." — Isaiah 6:3</p></div>
+      <div class="card"><span class="card-icon">🌍</span><h3>Omnipresent</h3><p>"Do I not fill heaven and earth?" — Jer 23:24</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ YOUTH ═══ -->
+<div class="divider"></div>
+<section class="section reveal" id="youth">
+  <div class="section-inner">
+    <div class="split">
+      <div>
+        <div class="tag">Your Season</div>
+        <h2 class="section-heading">Why <em>Youth</em> Is Your Superpower</h2>
+        <p class="section-body">Your brain is literally still being built. The prefrontal cortex — the part that handles decisions, impulse control, and moral reasoning — doesn't fully mature until age 25.</p>
+        <p class="section-body" style="margin-top:0.9rem;">WHO and UN define youth as ages 15–24 — the most moldable, formative window of your entire life. What you build now, lasts.</p>
+      </div>
+      <div>
+        <div class="stats">
+          <div class="stat-pill"><div class="num">15–24</div><div class="lbl">Youth Years (WHO)</div></div>
+          <div class="stat-pill"><div class="num">25</div><div class="lbl">Brain fully matures</div></div>
+          <div class="stat-pill"><div class="num">#1</div><div class="lbl">Habit formation window</div></div>
+          <div class="stat-pill"><div class="num">∞</div><div class="lbl">God's call on your life</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HEROES ═══ -->
+<div class="divider"></div>
+<section class="section reveal" id="heroes">
+  <div class="section-inner">
+    <div class="tag">Proof From History</div>
+    <h2 class="section-heading" style="max-width:560px;">Young People God <em>Used Mightily</em></h2>
+    <p class="section-body" style="margin-bottom:0.5rem;">God has always called young people — people your age — into His story.</p>
+    <div class="heroes-grid">
+      <div class="hero-card"><div class="name">David</div><div class="age">Young Shepherd Boy</div><div class="deed">Anointed as King of Israel.</div></div>
+      <div class="hero-card"><div class="name">Joseph</div><div class="age">17 Years Old</div><div class="deed">Given dreams and a destiny that saved nations.</div></div>
+      <div class="hero-card"><div class="name">Jeremiah</div><div class="age">Young Man</div><div class="deed">Called as a prophet to nations.</div></div>
+      <div class="hero-card"><div class="name">Daniel</div><div class="age">Teenager</div><div class="deed">Stood firm in faith in Babylon.</div></div>
+      <div class="hero-card"><div class="name">Mary</div><div class="age">~14–16 Years Old</div><div class="deed">Chosen to carry the Savior of the world.</div></div>
+      <div class="hero-card"><div class="name">Timothy</div><div class="age">Young Minister</div><div class="deed">Led churches, received Paul's letters.</div></div>
+      <div class="hero-card"><div class="name">Jesus</div><div class="age">Age 12</div><div class="deed">Already about His Father's business.</div></div>
+    </div>
+    <p style="margin-top:1.6rem;font-size:0.88rem;font-style:italic;color:var(--soft);">"Don't let anyone look down on you because you are young…" — 1 Timothy 4:12</p>
+  </div>
+</section>
+
+<!-- ═══ 30-DAY TEASER ═══ -->
+<div class="divider"></div>
+<section class="section reveal" id="devotion">
+  <div class="section-inner" style="text-align:center;max-width:680px;margin:0 auto;">
+    <div class="tag">30-Day Challenge</div>
+    <h2 class="section-heading">Jesus — <em>Creator &amp; Controller</em><br>of All Things</h2>
+    <p class="section-body" style="margin:0 auto 2rem;">
+      One verse per day. 30 days. Every scripture hand-picked to show that Jesus Christ made everything — and holds it all together by His power. Track your daily progress, filter by theme, and build a habit that lasts a lifetime.
+    </p>
+    <!-- Mini preview chips -->
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.6rem;margin-bottom:2.5rem;">
+      <span style="background:rgba(123,94,167,0.2);border:1px solid rgba(123,94,167,0.4);color:var(--soft);font-size:0.74rem;padding:0.3em 0.85em;border-radius:999px;">🌌 Creator</span>
+      <span style="background:rgba(74,158,255,0.15);border:1px solid rgba(74,158,255,0.35);color:#8bc4ff;font-size:0.74rem;padding:0.3em 0.85em;border-radius:999px;">🤲 Sustainer</span>
+      <span style="background:rgba(245,200,66,0.12);border:1px solid rgba(245,200,66,0.35);color:var(--gold);font-size:0.74rem;padding:0.3em 0.85em;border-radius:999px;">👑 Authority</span>
+      <span style="background:rgba(232,131,26,0.12);border:1px solid rgba(232,131,26,0.35);color:var(--amber);font-size:0.74rem;padding:0.3em 0.85em;border-radius:999px;">✝ Saviour</span>
+    </div>
+    <!-- Big CTA card -->
+    <div style="background:linear-gradient(135deg,rgba(123,94,167,0.22),rgba(245,200,66,0.08));border:1px solid rgba(245,200,66,0.25);border-radius:24px;padding:2.2rem 1.6rem;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(123,94,167,0.18) 0%,transparent 70%);pointer-events:none;"></div>
+      <div style="font-size:3rem;margin-bottom:0.6rem;">📖</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;">Start Your 30-Day Journey</div>
+      <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;max-width:420px;margin:0 auto 1.5rem;">Tick off each verse as you go. Your progress saves automatically — pick up right where you left off.</p>
+      <a href="30-day-devotion.html" class="btn" style="font-size:1rem;padding:0.9rem 2.2rem;">Begin the Challenge →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<div class="divider"></div>
+<section class="cta-section reveal">
+  <h2 class="cta-title">Your <em>youth</em> is not a waiting room. It's the main stage.</h2>
+  <p class="cta-sub">God is calling you — right now, in this season, exactly as you are — to know Him, follow Him, and live with purpose.</p>
+  <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Start From the Beginning</button>
+</section>
+
+<footer>
+  <p>Remember Your Creator &nbsp;·&nbsp; Ecclesiastes 12:1 &nbsp;·&nbsp; For Teenagers &nbsp;·&nbsp; A Journey into Purpose</p>
+</footer>
+
+<script>
+/* ── STARFIELD ── */
+(function(){
+  const canvas=document.getElementById('stars');
+  const ctx=canvas.getContext('2d');
+  let W,H,stars=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=document.body.scrollHeight;}
+  function makeStars(n){stars=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+0.2,a:Math.random(),da:(Math.random()*0.004+0.001)*(Math.random()<0.5?1:-1)}));}
+  function draw(){ctx.clearRect(0,0,W,H);for(const s of stars){s.a+=s.da;if(s.a>1)s.da=-Math.abs(s.da);if(s.a<0.05)s.da=Math.abs(s.da);ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a})`;ctx.fill();}requestAnimationFrame(draw);}
+  resize();makeStars(250);draw();
+  window.addEventListener('resize',()=>{resize();makeStars(250);});
+})();
+
+/* ── SCROLL REVEAL ── */
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');revObs.unobserve(e.target);}});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ── NAV TOGGLE ── */
+document.getElementById('navToggle').addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('#navLinks a').forEach(a=>a.addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.remove('open');
+}));
+
+/* ── ACTIVE NAV ── */
+const sections=[...document.querySelectorAll('section[id]')];
+const navAs=[...document.querySelectorAll('.nav-links a')];
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-80)cur=s.id;});
+  navAs.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+cur);});
+},{passive:true});
+
+/* ── 30-DAY DEVOTION DATA ── */
+const DEVOT=[
+  {day:1,ref:'John 1:1-3',cat:'creator',verse:'In the beginning was the Word… all things were made through Him, and without Him was not any thing made that was made.',theme:'Jesus Is the Word Who Created Everything'},
+  {day:2,ref:'Colossians 1:16',cat:'creator',verse:'For by Him all things were created — in heaven and on earth, visible and invisible… all things were created through Him and for Him.',theme:'Every Thing Exists For Jesus'},
+  {day:3,ref:'Colossians 1:17',cat:'sustainer',verse:'He is before all things, and in Him all things hold together.',theme:'Jesus Holds the Universe Together'},
+  {day:4,ref:'Hebrews 1:2-3',cat:'creator',verse:'…through whom He also created the world. He is the radiance of the glory of God… upholding the universe by the word of His power.',theme:'Jesus Upholds All Things'},
+  {day:5,ref:'Genesis 1:1',cat:'creator',verse:'In the beginning, God created the heavens and the earth.',theme:'Creation Begins With God'},
+  {day:6,ref:'Revelation 4:11',cat:'creator',verse:'You are worthy, our Lord and God, to receive glory and honor and power, for You created all things.',theme:'Worship the Creator'},
+  {day:7,ref:'John 1:10',cat:'creator',verse:'He was in the world, and the world was made through Him, yet the world did not know Him.',theme:'The World Was Made Through Christ'},
+  {day:8,ref:'Isaiah 40:28',cat:'sustainer',verse:'The LORD is the everlasting God, the Creator of the ends of the earth. He does not faint or grow weary.',theme:'God Never Runs Out of Power'},
+  {day:9,ref:'Psalm 33:6',cat:'creator',verse:'By the word of the LORD the heavens were made, and by the breath of His mouth all their host.',theme:'His Word Creates'},
+  {day:10,ref:'Romans 11:36',cat:'creator',verse:'For from Him and through Him and to Him are all things. To Him be glory forever.',theme:'All Things Come From & Return to Christ'},
+  {day:11,ref:'Hebrews 1:10',cat:'creator',verse:'"You, Lord, laid the foundation of the earth in the beginning, and the heavens are the work of Your hands."',theme:'Jesus Built the Earth'},
+  {day:12,ref:'Psalm 104:24',cat:'creator',verse:'How many are Your works, LORD! In wisdom You made them all; the earth is full of Your creatures.',theme:'Creation Reveals His Wisdom'},
+  {day:13,ref:'Acts 17:24-25',cat:'authority',verse:'The God who made the world and everything in it is the Lord of heaven and earth… He Himself gives to all mankind life and breath and everything.',theme:'He Gives Life to Everyone'},
+  {day:14,ref:'Matthew 28:18',cat:'authority',verse:'"All authority in heaven and on earth has been given to Me."',theme:'Jesus Has ALL Authority'},
+  {day:15,ref:'Ephesians 1:10',cat:'authority',verse:'…a plan for the fullness of time, to unite all things in Him, things in heaven and things on earth.',theme:'Everything Will Be Unified Under Christ'},
+  {day:16,ref:'Philippians 2:10-11',cat:'authority',verse:'So that at the name of Jesus every knee should bow… and every tongue confess that Jesus Christ is Lord.',theme:'Every Knee Will Bow'},
+  {day:17,ref:'Psalm 24:1',cat:'authority',verse:'The earth is the LORD\'s, and everything in it, the world, and all who live in it.',theme:'Everything Belongs to God'},
+  {day:18,ref:'Job 38:4',cat:'authority',verse:'"Where were you when I laid the foundation of the earth? Tell me, if you have understanding."',theme:'God Alone Was There at Creation'},
+  {day:19,ref:'Isaiah 45:12',cat:'creator',verse:'I made the earth and created man on it; it was My hands that stretched out the heavens.',theme:'He Personally Made You and the Universe'},
+  {day:20,ref:'Psalm 139:13-14',cat:'creator',verse:'For You formed my inward parts; You knitted me together in my mother\'s womb. I praise You, for I am fearfully and wonderfully made.',theme:'Jesus Personally Designed You'},
+  {day:21,ref:'Nehemiah 9:6',cat:'sustainer',verse:'You alone are the LORD. You have made heaven… You give life to all of them, and the heavenly host bows down before You.',theme:'He Gives Life to All Creation'},
+  {day:22,ref:'Revelation 1:8',cat:'authority',verse:'"I am the Alpha and the Omega," says the Lord God, "who is and who was and who is to come, the Almighty."',theme:'Jesus Is the Beginning and the End'},
+  {day:23,ref:'Isaiah 46:10',cat:'authority',verse:'"…declaring the end from the beginning… My counsel shall stand, and I will accomplish all My purpose."',theme:'He Controls the Future'},
+  {day:24,ref:'Daniel 4:35',cat:'authority',verse:'He does according to His will among the host of heaven and among the inhabitants of the earth; none can stay His hand.',theme:'Nothing Stops God\'s Plan'},
+  {day:25,ref:'1 Corinthians 8:6',cat:'creator',verse:'…yet for us there is one God, the Father, from whom are all things… and one Lord, Jesus Christ, through whom are all things.',theme:'Jesus Is the Agent of All Creation'},
+  {day:26,ref:'John 5:17',cat:'sustainer',verse:'"My Father is working until now, and I am working."',theme:'Jesus Is Actively At Work Right Now'},
+  {day:27,ref:'Psalm 95:3-5',cat:'creator',verse:'For the LORD is a great God, a great King above all gods. In His hand are the depths of the earth; the heights of the mountains are His also.',theme:'He Owns Every Mountain and Sea'},
+  {day:28,ref:'Colossians 2:10',cat:'authority',verse:'…and you have been filled in Him, who is the head of all rule and authority.',theme:'Jesus Heads Every Power That Exists'},
+  {day:29,ref:'2 Corinthians 5:17',cat:'saviour',verse:'Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come.',theme:'Jesus Creates New Life in You'},
+  {day:30,ref:'Revelation 21:5',cat:'saviour',verse:'And He who was seated on the throne said, "Behold, I am making all things new."',theme:'Jesus Will Recreate Everything — Including You'},
+];
+
+const STORAGE_KEY='devot30_v1';
+let checked=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(checked));}
+
+function updateProgress(){
+  const n=checked.length;
+  document.getElementById('progressCount').textContent=n+' / 30 days completed';
+  document.getElementById('devotBar').style.width=(n/30*100)+'%';
+}
+
+let activeFilter='all';
+
+function renderTable(){
+  const tbody=document.getElementById('devotBody');
+  tbody.innerHTML='';
+  const filtered=activeFilter==='all'?DEVOT:DEVOT.filter(d=>d.cat===activeFilter);
+  filtered.forEach(d=>{
+    const isDone=checked.includes(d.day);
+    const tr=document.createElement('tr');
+    if(isDone)tr.classList.add('done');
+    tr.dataset.day=d.day;
+    tr.dataset.cat=d.cat;
+
+    const catIcon={creator:'🌌',sustainer:'🤲',authority:'👑',saviour:'✝'}[d.cat]||'';
+
+    tr.innerHTML=`
+      <td><input type="checkbox" class="devot-check" data-day="${d.day}" ${isDone?'checked':''}></td>
+      <td><span class="day-badge">${d.day}</span></td>
+      <td><span class="ref-pill">${d.ref}</span></td>
+      <td>
+        <div class="theme-label">${catIcon} ${d.theme}</div>
+        <div class="verse-text">"${d.verse}"</div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // bind checkboxes
+  tbody.querySelectorAll('.devot-check').forEach(cb=>{
+    cb.addEventListener('change',function(){
+      const day=parseInt(this.dataset.day);
+      if(this.checked){if(!checked.includes(day))checked.push(day);}
+      else{checked=checked.filter(d=>d!==day);}
+      save();updateProgress();
+      const row=this.closest('tr');
+      row.classList.toggle('done',this.checked);
+      row.querySelector('.day-badge').style.color=this.checked?'var(--gold)':'';
+    });
+  });
+}
+
+// filter pills
+document.querySelectorAll('.filter-pill').forEach(pill=>{
+  pill.addEventListener('click',function(){
+    document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+    this.classList.add('active');
+    activeFilter=this.dataset.cat;
+    renderTable();
+  });
+});
+
+// reset
+document.getElementById('devotReset').addEventListener('click',()=>{
+  if(confirm('Reset all 30 days? Your progress will be cleared.')){
+    checked=[];save();updateProgress();renderTable();
+  }
+});
+
+renderTable();
+updateProgress();
+</script>
+</body>
+</html>
